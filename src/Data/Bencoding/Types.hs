@@ -17,6 +17,7 @@ import           Data.Text              (Text)
 import qualified Data.Text              as T
 import           Data.Vector            (Vector)
 
+-- | represents a value in bittorrents bencoding
 data BValue
   = BString !Text
   | BInt !Integer
@@ -24,7 +25,9 @@ data BValue
   | BDict !(Map Text BValue)
   deriving (Eq, Show)
 
+-- | a type which can be converted to/from a 'BValue'
 class HasBValue a where
+  -- | a 'Prism' into a value
   bvalue :: Prism' BValue a
 
 instance HasBValue BValue where
@@ -41,7 +44,8 @@ instance HasBValue Text where
 instance HasBValue String where
   bvalue = _BString . iso T.unpack T.pack
 
-_BInt :: (Num a, Integral a) => Prism' BValue a
+-- | 'Prism' into a 'Integral' 'BValue'
+_BInt :: (Integral a) => Prism' BValue a
 _BInt = prism' (BInt . toInteger) $ \case
   (BInt a) -> pure (fromInteger a)
   _        -> Nothing
@@ -52,6 +56,7 @@ instance HasBValue Int where
 instance HasBValue Integer where
   bvalue = _BInt
 
+-- | 'Prism' into a list like 'BValue'
 _BList :: (Applicative f, Foldable f, Monoid (f BValue)) => Prism' BValue (f BValue)
 _BList = prism' (BList . tfV) $ \case
   (BList a) -> pure $ tfV a
@@ -77,6 +82,7 @@ _BDict = prism' BDict $ \case
 instance HasBValue (Map Text BValue) where
   bvalue = _BDict
 
+-- | lookup a value in a bencoded dict
 atBDict :: Text -> Getter BValue (Maybe BValue)
 atBDict k = to $ \a -> do
   d <- preview _BDict a
