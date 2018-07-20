@@ -3,7 +3,7 @@
 {-# LANGUAGE RankNTypes        #-}
 
 module Data.Bencoding.Types
-  ( BValue, HasBValue(..), _BInt, _BList, atBDict
+  ( BValue(..), HasBValue(..), _BInt, _BList, atBDict
   ) where
 
 import           Control.Lens.At
