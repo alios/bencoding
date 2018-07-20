@@ -1,14 +1,10 @@
-{-# LANGUAGE FlexibleContexts     #-}
-{-# LANGUAGE FlexibleInstances    #-}
-{-# LANGUAGE LambdaCase           #-}
-{-# LANGUAGE OverloadedStrings    #-}
-{-# LANGUAGE RankNTypes           #-}
-{-# LANGUAGE TypeSynonymInstances #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE LambdaCase        #-}
+{-# LANGUAGE RankNTypes        #-}
 
 module Data.Bencoding.Types
   ( BValue, HasBValue(..), _BInt, _BList, atBDict
   ) where
-
 
 import           Control.Lens.At
 import           Control.Lens.Fold
