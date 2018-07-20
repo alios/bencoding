@@ -31,6 +31,8 @@ library:
   - lens
   - text
   - vector
+  ghc-options:
+  - -Wall
 
 tests:
   bencoding-test:

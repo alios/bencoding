@@ -9,13 +9,10 @@ module Data.Bencoding.Types
 import           Control.Lens.At
 import           Control.Lens.Fold
 import           Control.Lens.Getter
-import           Control.Lens.Indexed
 import           Control.Lens.Iso
 import           Control.Lens.Operators
 import           Control.Lens.Prism
-import           Control.Lens.TH
 import           Data.Map               (Map)
-import           Data.Map.Lens
 import           Data.Text              (Text)
 import qualified Data.Text              as T
 import           Data.Vector            (Vector)
