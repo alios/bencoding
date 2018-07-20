@@ -1,4 +1,7 @@
-module Data.Bencoding ( BValue, HasBValue(..), _BValue, _BValueStrict ) where
+module Data.Bencoding
+  ( BValue, HasBValue(..), _BValue, _BValueStrict
+  , getBDict
+  ) where
 
 import           Control.Lens.Fold
 import           Control.Lens.Iso
@@ -12,6 +15,10 @@ import qualified Data.ByteString                 as BS
 import           Data.ByteString.Builder
 import           Data.ByteString.Lazy            (ByteString)
 import qualified Data.ByteString.Lazy            as BL
+
+
+
+
 
 _BValue :: HasBValue a => Prism' ByteString a
 _BValue = prism' f t

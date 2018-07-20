@@ -12,12 +12,11 @@ import qualified Data.Vector             as V
 
 
 buildBValue :: BValue -> Builder
-buildBValue (BString s) =
-  let s' = T.encodeUtf8 s
-  in mconcat
-  [ byteString . T.encodeUtf8 . T.pack . show . BS.length $ s'
+buildBValue (BByteString bs) =
+  mconcat
+  [ byteString . T.encodeUtf8 . T.pack . show . BS.length $ bs
   , char7 ':'
-  , byteString s'
+  , byteString bs
   ]
 buildBValue (BInt i) =
   let i' = byteString . T.encodeUtf8 . T.pack . show $ i

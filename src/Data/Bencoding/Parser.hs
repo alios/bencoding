@@ -2,7 +2,7 @@
 
 
 module Data.Bencoding.Parser
-  ( parseBValue, parseBDict, parseBList, parseBInt, parseBString
+  ( parseBValue, parseBDict, parseBList, parseBInt, parseBByteString
   ) where
 
 import           Control.Lens.Fold
@@ -40,20 +40,19 @@ parseBInt = do
     Nothing -> fail $ "unable to read BInteger from" ++ lbs
     Just i  -> pure (_BInt # i)
 
-parseBString :: Parser BValue
-parseBString = do
+parseBByteString :: Parser BValue
+parseBByteString = do
   lbs <- T.unpack . T.decodeUtf8 <$> takeWhile1 (notInClass ":")
   void anyWord8
   case readMaybe lbs of
     Nothing -> fail $ "unable to read BString length from " ++ lbs
-    Just l  -> (bvalue #) . T.decodeUtf8 <$> P.take l
-
+    Just l  -> (bvalue #) <$> P.take l
 
 
 
 parseBDictValue :: Parser (Text, BValue)
 parseBDictValue = do
-  k' <- parseBString
+  k' <- parseBByteString
   case preview bvalue k' of
     Nothing -> fail $ "unable to read dict key from: " ++ show k'
     Just k  -> (,) <$> pure k <*> parseBValue
@@ -61,4 +60,4 @@ parseBDictValue = do
 
 
 parseBValue :: Parser BValue
-parseBValue = P.choice [parseBDict, parseBList, parseBInt, parseBString]
+parseBValue = P.choice [parseBDict, parseBList, parseBInt, parseBByteString]
