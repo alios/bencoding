@@ -79,8 +79,11 @@ _BDict = prism' BDict $ \case
   (BDict m) -> pure m
   _         -> Nothing
 
-instance HasBValue (Map Text BValue) where
-  bvalue = _BDict
+_BDict' :: HasBValue a => Prism' BValue (Map Text a)
+_BDict' = _BDict . _BList'
+
+instance HasBValue a => HasBValue (Map Text a) where
+  bvalue = _BDict'
 
 -- | lookup a value in a bencoded dict
 atBDict :: Text -> Getter BValue (Maybe BValue)
