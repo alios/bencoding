@@ -21,6 +21,9 @@ description:         Please see the README on GitHub at <https://github.com/alio
 
 dependencies:
 - base >= 4.7 && < 5
+- lens
+- text
+- vector
 
 library:
   source-dirs: src
@@ -28,9 +31,6 @@ library:
   - attoparsec
   - bytestring
   - containers
-  - lens
-  - text
-  - vector
   ghc-options:
   - -Wall
 
@@ -44,3 +44,5 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - bencoding
+    - QuickCheck
+    - hspec

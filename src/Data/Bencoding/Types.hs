@@ -3,7 +3,7 @@
 {-# LANGUAGE RankNTypes        #-}
 
 module Data.Bencoding.Types
-  ( BValue(..), HasBValue(..), _BInt, _BList, atBDict
+  ( BValue(..), HasBValue(..), _BInt, _BList, getBDict
   ) where
 
 import           Control.Lens.At
@@ -86,7 +86,7 @@ instance HasBValue a => HasBValue (Map Text a) where
   bvalue = _BDict'
 
 -- | lookup a value in a bencoded dict
-atBDict :: Text -> Getter BValue (Maybe BValue)
-atBDict k = to $ \a -> do
+getBDict :: (HasBValue a) => Text -> Getter BValue (Maybe a)
+getBDict k = to $ \a -> do
   d <- preview _BDict a
-  d ^. at k
+  d ^. at k >>= preview bvalue
