@@ -4,6 +4,7 @@ import           Control.Lens.Fold
 import           Control.Lens.Operators
 import           Data.Bencoding
 import           Data.Bencoding.Types
+import qualified Data.ByteString        as BS
 import qualified Data.Text              as T
 import qualified Data.Vector            as V
 import           Test.Hspec
@@ -13,7 +14,7 @@ instance Arbitrary T.Text where
   arbitrary = T.pack . getPrintableString <$> arbitrary
 
 genBString :: Gen BValue
-genBString = BString <$> arbitrary
+genBString = BByteString . BS.pack <$> arbitrary
 
 genBInt :: Gen BValue
 genBInt = BInt <$> arbitrary

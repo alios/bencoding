@@ -21,6 +21,7 @@ description:         Please see the README on GitHub at <https://github.com/alio
 
 dependencies:
 - base >= 4.7 && < 5
+- bytestring
 - lens
 - text
 - vector
@@ -29,7 +30,6 @@ library:
   source-dirs: src
   dependencies:
   - attoparsec
-  - bytestring
   - containers
   ghc-options:
   - -Wall
