@@ -6,8 +6,6 @@ import           Control.Lens.Operators
 import           Data.Bencoding.Types
 import qualified Data.ByteString         as BS
 import           Data.ByteString.Builder
-import qualified Data.ByteString.Lazy    as BL
-
 import qualified Data.Map                as Map
 import qualified Data.Text               as T
 import           Data.Text.Encoding      as T
