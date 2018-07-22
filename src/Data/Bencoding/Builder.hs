@@ -29,7 +29,8 @@ buildBValue (BList l) =
   in mconcat [char7 'l', mconcat l' ,char7 'e' ]
 buildBValue (BDict d) =
   let t = toLazyByteString . buildBValue
-      vs = mconcat . fmap (\(k, v) -> (t $ bvalue # k) `mappend` (t v)) .
+      vs = mconcat .
+           fmap (\(k, v) -> t (bvalue # k) `mappend` t v) .
            Map.toList $ d
   in mconcat [ char7 'd'
              , lazyByteString vs
