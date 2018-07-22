@@ -16,7 +16,7 @@ import           Data.ByteString        (ByteString)
 import qualified Data.ByteString.Lazy   as BL
 import           Data.Map               (Map)
 import           Data.Text              (Text)
-import qualified Data.Text              as T
+
 import           Data.Text.Encoding     as T
 import           Data.Vector            (Vector)
 -- | represents a value in bittorrents bencoding
@@ -49,8 +49,8 @@ instance HasBValue BL.ByteString where
 instance HasBValue Text where
   bvalue = bvalue . iso T.decodeUtf8 T.encodeUtf8
 
-instance HasBValue String where
-  bvalue = bvalue . iso T.unpack T.pack
+--instance HasBValue String where
+--  bvalue = bvalue . iso T.unpack T.pack
 
 -- | 'Prism' into a 'Integral' 'BValue'
 _BInt :: (Integral a) => Prism' BValue a
