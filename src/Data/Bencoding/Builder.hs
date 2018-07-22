@@ -1,10 +1,13 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Data.Bencoding.Builder (buildBValue) where
 
-import           Control.Lens.Indexed
+
 import           Control.Lens.Operators
 import           Data.Bencoding.Types
 import qualified Data.ByteString         as BS
 import           Data.ByteString.Builder
+import qualified Data.ByteString.Lazy    as BL
+
 import qualified Data.Map                as Map
 import qualified Data.Text               as T
 import           Data.Text.Encoding      as T
@@ -26,10 +29,9 @@ buildBValue (BList l) =
   in mconcat [char7 'l', mconcat l' ,char7 'e' ]
 buildBValue (BDict d) =
   let t = toLazyByteString . buildBValue
-      ins k v = Map.insert (t $ bvalue # k) (t v)
+      vs = mconcat . fmap (\(k, v) -> (t $ bvalue # k) `mappend` (t v)) .
+           Map.toList $ d
   in mconcat [ char7 'd'
-             , lazyByteString . mconcat .
-               fmap (uncurry mappend) . Map.toList .
-               ifoldr ins mempty $ d
+             , lazyByteString vs
              , char7 'e'
              ]
